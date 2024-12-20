@@ -13,6 +13,7 @@ int main(void)
     SetTargetFPS(144);
 
     Game* game = new Game();
+
     // Handle Textures
     game->handleTextures();
 
@@ -33,6 +34,9 @@ int main(void)
 
     // Unload All Textures
     // Clear Things
+
+    game->clear();
+    
     delete game;
     game = nullptr;
 

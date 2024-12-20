@@ -24,7 +24,7 @@ set(PROJECT_INCLUDE "${CMAKE_CURRENT_LIST_DIR}/sources/") # Define PROJECT_INCLU
 
 # Declaring our executable
 add_executable(${PROJECT_NAME})
-target_sources(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCES}   "sources/game.h" "sources/game.cpp" "sources/gun.h" "sources/gun.cpp")
+target_sources(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCES}   "sources/game.h" "sources/game.cpp" "sources/gun.h" "sources/gun.cpp" "sources/player.h" "sources/player.cpp" "sources/enemy.cpp" "sources/enemy.h" "sources/map.h" "sources/map.cpp")
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_INCLUDE})
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
 
