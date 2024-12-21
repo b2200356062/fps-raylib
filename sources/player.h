@@ -21,4 +21,5 @@ public:
 	
 	void update();
 	void draw();
+	void drawGun();
 };

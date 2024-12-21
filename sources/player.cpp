@@ -1,11 +1,10 @@
 #include "player.h"
 
-
 Player::Player()
 {
 	health = 100;
 	position = { 100.f, 100.f };
-	speed = 25;
+	speed = 5;
 	gun = new Gun();
 }
 
@@ -35,13 +34,16 @@ void Player::update()
 	if (IsKeyDown(KEY_R)) {
 		gun->reload();
 	}
-	std::cout << "player posx: " << position.x << "player posy: " << position.y << "\n";
 
 	gun->update();
 }
 
+void Player::drawGun()
+{
+	gun->draw();
+}
+
 void Player::draw()
 {
-	DrawCircleV(position, 20, BLUE);
-	gun->draw();
+	drawGun();
 }

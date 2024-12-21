@@ -25,6 +25,5 @@ public:
 	void shoot();
 	void reload();
 	void draw() const;
-	void clear() const;
 
 };
