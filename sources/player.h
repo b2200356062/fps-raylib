@@ -8,7 +8,7 @@ class Player
 private:
 
 	int health;
-	Vector2 position;
+	Vector3 position;
 	float speed;
 	Gun *gun;
 
@@ -17,7 +17,7 @@ public:
 	Player();
 	~Player();
 
-	Player(Vector2 position);
+	Player(Vector3 position);
 	
 	void update();
 	void draw();

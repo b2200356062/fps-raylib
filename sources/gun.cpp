@@ -3,7 +3,7 @@
 
 Gun::Gun()
 {
-	ammoRemaining = 90;
+	ammoRemaining = 30;
 	gunSprite = LoadTexture(ASSETS_PATH"textures/guns/mcgun.png");
 	frameWidth = gunSprite.width / 4; // Çerçeve geniþliði (örneðin, 4 çerçeve varsa)
 	frameHeight = gunSprite.height;
@@ -49,7 +49,7 @@ void Gun::shoot()
 		timer = 0.0f;
 	}
 	
-	std::cout << ammoRemaining << "\n";
+	//std::cout << ammoRemaining << "\n";
 }
 
 void Gun::reload()
@@ -57,6 +57,7 @@ void Gun::reload()
 	isShooting = false;
 	isReloading = true;
 	currentFrame = 0;
+	ammoRemaining = 30;
 }
 
 void Gun::draw() const
@@ -64,6 +65,6 @@ void Gun::draw() const
 	int row = currentFrame / 4;
 	int col = currentFrame % 4;
 	Rectangle sourceRect = { col * frameWidth, row * frameHeight, frameWidth, frameHeight };
-	Rectangle destRect = { 400 - frameWidth / 2, 225 - frameHeight / 2, frameWidth, frameHeight };
+	Rectangle destRect = { GetScreenWidth() / 2 - (frameWidth / 2), GetScreenHeight() - frameHeight, frameWidth, frameHeight};
 	DrawTexturePro(gunSprite, sourceRect, destRect, { 0, 0 }, 0.0f, WHITE);
 }
