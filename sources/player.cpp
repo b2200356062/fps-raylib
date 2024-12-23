@@ -30,7 +30,12 @@ void Player::update(std::vector<Enemy*>& enemies, Camera3D& camera)
 
 	if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) 
 	{
+		gun->isShooting = true;
+
+		gun->update();
+
 		shoot(enemies, camera);
+
 		timeSinceLastShot = 0.0f; // Reset the timer after shooting
 	}
 
@@ -40,18 +45,14 @@ void Player::update(std::vector<Enemy*>& enemies, Camera3D& camera)
 		gun->currentFrame = 0;
 		gun->timer = 0.0f;
 	}
-
-	gun->update();
-	
 }
 
 void Player::shoot(std::vector<Enemy*>& enemies, Camera3D& camera)
 {
 	if (gun->isShooting) return; // Prevent shooting if already shooting
 
-	Ray ray = GetMouseRay(GetMousePosition(), camera);
-
-	gun->isShooting = true;
+	Vector2 screenCenter = { GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f };
+	Ray ray = GetMouseRay(screenCenter, camera);
 
 	for (auto& enemy : enemies)
 	{
@@ -62,13 +63,15 @@ void Player::shoot(std::vector<Enemy*>& enemies, Camera3D& camera)
 			break; // Only hit one enemy per shot
 		}
 	}
-
-	gun->update();
+	
 }
 
 void Player::draw()
 {
 	gun->draw();
+	Vector2 screenCenter = { GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f };
+	DrawLine(screenCenter.x - 10, screenCenter.y, screenCenter.x + 10, screenCenter.y, GREEN);
+	DrawLine(screenCenter.x, screenCenter.y - 10, screenCenter.x, screenCenter.y + 10, GREEN);
 }
 
 void Player::reload()
