@@ -1,9 +1,9 @@
 #include "gun.h"
-#include "iostream"
+#include <iostream>
 
 Gun::Gun()
 {
-	ammoRemaining = 30;
+	ammoRemaining = 120;
 	gunSprite = LoadTexture(ASSETS_PATH"textures/guns/mcgun.png");
 	frameWidth = gunSprite.width / 4; // Çerçeve geniþliði (örneðin, 4 çerçeve varsa)
 	frameHeight = gunSprite.height;
@@ -17,12 +17,13 @@ Gun::Gun()
 
 Gun::~Gun()
 {
-	//UnloadTexture(gunSprite);
+	UnloadTexture(gunSprite);
 }
 
 void Gun::update()
 {
 	if (isShooting) {
+		ammoRemaining--;
 		timer += GetFrameTime();
 		if (timer >= frameTime) {
 			timer = 0.0f;
@@ -33,31 +34,6 @@ void Gun::update()
 			}
 		}
 	}
-}
-
-void Gun::shoot()
-{
-	if (ammoRemaining == 0) {
-		DrawText("NO AMMO LEFT", GetScreenWidth() / 2 - 50, GetScreenHeight() / 2 + 100, 30, BLACK);
-	}
-
-	if (!isShooting && ammoRemaining > 0) {
-		isShooting = true;
-		ammoRemaining--;
-		isReloading = false;
-		currentFrame = 0;
-		timer = 0.0f;
-	}
-	
-	//std::cout << ammoRemaining << "\n";
-}
-
-void Gun::reload()
-{
-	isShooting = false;
-	isReloading = true;
-	currentFrame = 0;
-	ammoRemaining = 30;
 }
 
 void Gun::draw() const

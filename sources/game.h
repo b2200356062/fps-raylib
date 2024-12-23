@@ -5,33 +5,35 @@
 #include "player.h"
 #include "enemy.h"
 #include "map.h"
-#include "ui.h"
+// #include "ui.h"
 
-#include <iostream>
-#include <vector>
+constexpr auto SCREEN_WIDTH = 800;
+constexpr auto SCREEN_HEIGHT = 600;
+constexpr auto WINDOW_TITLE = "FPS";
 
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 600
-#define WINDOW_TITLE "FPS"
+typedef enum Scene
+{
+	SCENE_TITLE = 0,
+	SCENE_GAMEPLAY,
+	SCENE_OPTIONS
+}Scene;
 
 class Game
 {
 private:
-	UI* ui = nullptr;
 	Player* player = nullptr;
 	Map* map = nullptr;
 	std::vector<Enemy*> enemies;
 	Camera3D camera;
 	int frameCounter;
-	UI::Scene currentScene;
+	Scene currentScene;
 
 public:
 
 	Game();
 	~Game();
 
-	void init();
-	void handleTextures();
+	void initGameplay();
 	void update();
-	void draw() const;
+
 };

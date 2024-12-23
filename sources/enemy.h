@@ -1,5 +1,6 @@
 #pragma once
 #include "raylib.h"
+#include "raymath.h"
 
 class Enemy
 {
@@ -13,6 +14,8 @@ public:
 	void draw(Camera3D camera);
 	void getHit(int damage);
 	void die();
+
+	int getHealth() const;
 
 	Vector3 getPosition() const;
 	BoundingBox getBoundingBox() const;

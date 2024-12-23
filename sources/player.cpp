@@ -1,17 +1,6 @@
 #include "player.h"
 
-Player::Player()
-{
-	health = 100;
-	position = { 0.f, 0.f, 0.f };
-	speed = 5;
-	gun = new Gun();
-}
-
-Player::~Player()
-{
-
-}
+#include <iostream>
 
 Player::Player(Vector3 position)
 {
@@ -19,34 +8,72 @@ Player::Player(Vector3 position)
 	health = 100;
 	speed = 25;
 	gun = new Gun();
+	shootCooldown = 1.f; // 0.5 seconds cooldown between shots
+	timeSinceLastShot = 0.0f;
 }
 
-void Player::update()
+
+Player::~Player()
 {
-	if (IsKeyDown(KEY_W)) position.z -= speed;
-	if (IsKeyDown(KEY_S)) position.z += speed;
-	if (IsKeyDown(KEY_A)) position.x -= speed;
-	if (IsKeyDown(KEY_D)) position.x += speed;
+	delete gun;
+}
 
-	if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+void Player::update(std::vector<Enemy*>& enemies, Camera3D& camera)
+{
+	float deltaTime = GetFrameTime();
+	timeSinceLastShot += deltaTime;
 
-		gun->shoot();
-		
+	if (IsKeyDown(KEY_W)) position.z -= speed * deltaTime;
+	if (IsKeyDown(KEY_S)) position.z += speed * deltaTime;
+	if (IsKeyDown(KEY_A)) position.x -= speed * deltaTime;
+	if (IsKeyDown(KEY_D)) position.x += speed * deltaTime;
+
+	if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) 
+	{
+		shoot(enemies, camera);
+		timeSinceLastShot = 0.0f; // Reset the timer after shooting
 	}
 
-	if (IsKeyDown(KEY_R)) {
-		gun->reload();
+	if (IsKeyDown(KEY_R)) 
+	{
+		gun->isShooting = false;
+		gun->currentFrame = 0;
+		gun->timer = 0.0f;
+	}
+
+	gun->update();
+	
+}
+
+void Player::shoot(std::vector<Enemy*>& enemies, Camera3D& camera)
+{
+	if (gun->isShooting) return; // Prevent shooting if already shooting
+
+	Ray ray = GetMouseRay(GetMousePosition(), camera);
+
+	gun->isShooting = true;
+
+	for (auto& enemy : enemies)
+	{
+		if (GetRayCollisionBox(ray, enemy->getBoundingBox()).hit)
+		{
+			std::cout << "enemy hit: " << enemy->getHealth() << "\n";
+			enemy->getHit(10); // Assume each hit does 10 damage
+			break; // Only hit one enemy per shot
+		}
 	}
 
 	gun->update();
 }
 
-void Player::drawGun()
+void Player::draw()
 {
 	gun->draw();
 }
 
-void Player::draw()
+void Player::reload()
 {
-	drawGun();
+
 }
+
+

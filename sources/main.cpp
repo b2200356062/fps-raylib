@@ -5,8 +5,6 @@ int main(void)
 {
     Game* game = new Game();
  
-    game->init();
-    
     game->update();
 
 

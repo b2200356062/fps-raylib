@@ -1,5 +1,4 @@
 #include "enemy.h"
-#include "raymath.h"
 
 Enemy::Enemy()
 {
@@ -52,7 +51,12 @@ void Enemy::getHit(int damage)
 
 void Enemy::die()
 {
+	// play death animation
+}
 
+int Enemy::getHealth() const
+{
+	return health;
 }
 
 Vector3 Enemy::getPosition() const
