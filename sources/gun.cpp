@@ -28,10 +28,10 @@ void Gun::update()
 		if (timer >= frameTime) {
 			timer = 0.0f;
 			currentFrame++;
-			if (currentFrame >= frameCount) {
+			/*if (currentFrame >= frameCount) {
 				currentFrame = 0;
 				isShooting = false;
-			}
+			}*/
 		}
 	}
 }

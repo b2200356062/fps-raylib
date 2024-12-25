@@ -69,6 +69,7 @@ void Player::shoot(std::vector<Enemy*>& enemies, Camera3D& camera)
 void Player::draw()
 {
 	gun->draw();
+	// draw crosshair
 	Vector2 screenCenter = { GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f };
 	DrawLine(screenCenter.x - 10, screenCenter.y, screenCenter.x + 10, screenCenter.y, GREEN);
 	DrawLine(screenCenter.x, screenCenter.y - 10, screenCenter.x, screenCenter.y + 10, GREEN);

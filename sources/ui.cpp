@@ -1,3 +1,91 @@
+
+#include "ui.h"
+
+#define RAYGUI_IMPLEMENTATION
+#include "raygui.h"
+#include <iostream>
+
+Ui::Ui()
+{
+	font = LoadFont(ASSETS_PATH"fonts/rodin.otf");
+	currentScene = TITLE;
+}
+
+Ui::~Ui()
+{
+	UnloadFont(font);
+}
+
+
+
+void Ui::drawText(const char* text, Vector2 position, float fontSize, float spacing, Color tint)
+{
+	Vector2 length = MeasureTextEx(font, text, fontSize * font.baseSize, spacing);
+	Vector2 dividedLength = Vector2Divide(length, Vector2{ 2.f, 2.f });
+	Vector2 newPosition = Vector2Subtract(position, dividedLength);
+	
+	DrawTextEx(font, text, newPosition, fontSize * font.baseSize, spacing, tint);
+
+}
+
+void Ui::drawTitleScreen()
+{
+    drawText("RETRO FPS", Vector2{ static_cast<float>(GetScreenWidth()) / 2, static_cast<float>(GetScreenHeight()) / 8 }, 2, 1, BLACK);
+	// drawText("RETRO FPS", Vector2{ GetScreenWidth() / 2, GetScreenHeight() / 8 }, 2, 1, BLACK);
+
+	if (GuiButton(Rectangle{ , 200, 200, 40 }, "START"))
+	{
+		currentScene = GAMEPLAY;
+	}
+	if (GuiButton(Rectangle{ 200, 260, 200, 40 }, "OPTIONS"))
+	{
+		currentScene = OPTIONS;
+	}
+	if (GuiButton(Rectangle{ 200, 320, 200, 40 }, "EXIT"))
+	{
+		exit(0);
+	}
+}
+
+void Ui::drawOptionsScreen()
+{
+	DrawText("OPTIONS", 200, 100, 40, DARKGRAY);
+
+	// cesitli ayarlar 
+
+	// GuiSlider(Rectangle{ 200, 240, 200, 20 }, "", TextFormat("%2.0f%%", volume * 100), &volume, 0.0f, 1.0f);
+	// GuiCheckBox(Rectangle{ 200, 280, 20, 20 }, "Fullscreen", &fullscreen);
+
+	if (GuiButton(Rectangle{ 200, 320, 200, 40 }, "BACK"))
+	{
+		currentScene = TITLE;
+	}
+	
+}
+
+void Ui::drawGameplayUI()
+{
+}
+
+Vector2 Ui::center(Vector2 position)
+{
+	
+}
+
+void Ui::updateScene(Scene scene)
+{
+
+}
+
+Ui::Scene Ui::getCurrentScene() const
+{
+	return currentScene;
+}
+
+
+
+
+
 //#include "ui.h"
 //
 //// Constructor
