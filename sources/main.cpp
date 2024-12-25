@@ -7,7 +7,6 @@ int main(void)
  
     game->update();
 
-
     delete game;
     game = nullptr;
 

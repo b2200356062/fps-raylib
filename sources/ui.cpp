@@ -16,8 +16,6 @@ Ui::~Ui()
 	UnloadFont(font);
 }
 
-
-
 void Ui::drawText(const char* text, Vector2 position, float fontSize, float spacing, Color tint)
 {
 	Vector2 length = MeasureTextEx(font, text, fontSize * font.baseSize, spacing);
@@ -25,7 +23,6 @@ void Ui::drawText(const char* text, Vector2 position, float fontSize, float spac
 	Vector2 newPosition = Vector2Subtract(position, dividedLength);
 	
 	DrawTextEx(font, text, newPosition, fontSize * font.baseSize, spacing, tint);
-
 }
 
 void Ui::drawTitleScreen()
@@ -33,13 +30,13 @@ void Ui::drawTitleScreen()
     drawText("RETRO FPS", Vector2{ static_cast<float>(GetScreenWidth()) / 2, static_cast<float>(GetScreenHeight()) / 8 }, 2, 1, BLACK);
 	// drawText("RETRO FPS", Vector2{ GetScreenWidth() / 2, GetScreenHeight() / 8 }, 2, 1, BLACK);
 
-	if (GuiButton(Rectangle{ , 200, 200, 40 }, "START"))
+	if (GuiButton(Rectangle{ 200, 200, 200, 40 }, "START"))
 	{
-		currentScene = GAMEPLAY;
+		updateScene(GAMEPLAY);
 	}
 	if (GuiButton(Rectangle{ 200, 260, 200, 40 }, "OPTIONS"))
 	{
-		currentScene = OPTIONS;
+		updateScene(OPTIONS);
 	}
 	if (GuiButton(Rectangle{ 200, 320, 200, 40 }, "EXIT"))
 	{
@@ -49,32 +46,32 @@ void Ui::drawTitleScreen()
 
 void Ui::drawOptionsScreen()
 {
-	DrawText("OPTIONS", 200, 100, 40, DARKGRAY);
+	drawText("Ayarlar", Vector2{ static_cast<float>(GetScreenWidth()) / 2, static_cast<float>(GetScreenHeight()) / 8 }, 2, 1, BLACK);
 
-	// cesitli ayarlar 
 
 	// GuiSlider(Rectangle{ 200, 240, 200, 20 }, "", TextFormat("%2.0f%%", volume * 100), &volume, 0.0f, 1.0f);
-	// GuiCheckBox(Rectangle{ 200, 280, 20, 20 }, "Fullscreen", &fullscreen);
+	//GuiCheckBox(Rectangle{ 200, 280, 20, 20 }, "Fullscreen", &fullscreen);
 
 	if (GuiButton(Rectangle{ 200, 320, 200, 40 }, "BACK"))
 	{
-		currentScene = TITLE;
+		updateScene(TITLE);
 	}
 	
 }
 
 void Ui::drawGameplayUI()
 {
+	float health = GuiSlider(Rectangle{ 50, 550, 30, 10 }, "CAN", "", &health, 0, 100);
 }
 
 Vector2 Ui::center(Vector2 position)
 {
-	
+	return Vector2();
 }
 
 void Ui::updateScene(Scene scene)
 {
-
+	currentScene = scene;
 }
 
 Ui::Scene Ui::getCurrentScene() const

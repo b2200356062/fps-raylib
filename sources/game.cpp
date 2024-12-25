@@ -10,13 +10,16 @@ Game::Game()
 	SetTargetFPS(144);
 
 	ui = new Ui();
-	
+	camera = { 0 };
 	frameCounter = 0;
 }
 
 Game::~Game()
 {
 	enemies.clear();
+	delete ui;
+	delete player;
+	delete map;
 }
 
 void Game::initGameplay()
@@ -24,8 +27,6 @@ void Game::initGameplay()
 	map = new Map();
 	
 	player = new Player({ 100.f, 100.f });
-
-	camera = { 0 };
 
 	enemies.push_back(new Enemy(1, 100, { 2.f, 1.f, 2.f }, ASSETS_PATH"textures/characters/SoldierIdle.png"));
 	enemies.push_back(new Enemy(2, 100, { 5.f, 1.f, 5.f }, ASSETS_PATH"textures/characters/ZombieIdle.png"));
@@ -48,13 +49,13 @@ void Game::update()
 		// update
 		switch (ui->getCurrentScene()) {
 
-			//case SCENE_TITLE:
-			//{
-			//	
-			//}
-			//break;
-
 			case Ui::TITLE:
+			{
+
+			}
+			break;
+
+			case Ui::GAMEPLAY:
 			{
 				UpdateCamera(&camera, CAMERA_FIRST_PERSON);
 				// UPDATE PLAYER ENEMIES GUN MAP
@@ -86,17 +87,15 @@ void Game::update()
 		{
 			case Ui::TITLE:
 			{
-				
 				ui->drawTitleScreen();
-	            
 			}
 			break;
 
 			case Ui::GAMEPLAY:
 			{
-				BeginMode3D(camera);
+				DisableCursor();
 
-					DisableCursor();
+				BeginMode3D(camera);
 
 					map->draw();
 
