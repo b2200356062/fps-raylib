@@ -22,5 +22,5 @@ private:
 	bool isReloading;
 	Texture2D gunSprite;
 
-	friend class Player; // Allow Player class to access private members
+	friend class Player;
 };

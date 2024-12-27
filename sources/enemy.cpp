@@ -1,78 +1,82 @@
-#include "enemy.h"
-#include <iostream>
+#include "Enemy.h"
 
-Enemy::Enemy()
-{
+// Default Constructor
+Enemy::Enemy() : type(0), health(100), position({0, 0, 0}), currentAnimation(nullptr) {}
 
+// Parametreli Constructor
+Enemy::Enemy(int type, int health, Vector3 position)
+    : type(type), health(health), position(position), currentAnimation(nullptr) {
+    // Bounding box oluþtur
+    boundingBox = {
+        {position.x - 0.5f, position.y, position.z - 0.5f},
+        {position.x + 0.5f, position.y + 1.0f, position.z + 0.5f}
+    };
+
+    // Animasyonlarý yükle
+    idleAnimation = std::make_unique<Animation>(
+        std::vector<std::string>{"enemy_idle1.png", "enemy_idle2.png", "enemy_idle3.png"}, 0.2f);
+    walkingAnimation = std::make_unique<Animation>(
+        std::vector<std::string>{"enemy_walk1.png", "enemy_walk2.png", "enemy_walk3.png"}, 0.15f);
+    deathAnimation = std::make_unique<Animation>(
+        std::vector<std::string>{"enemy_death1.png", "enemy_death2.png", "enemy_death3.png"}, 0.25f);
+    hurtAnimation = std::make_unique<Animation>(
+        std::vector<std::string>{"enemy_hurt1.png", "enemy_hurt2.png"}, 0.1f);
+
+    // Varsayýlan animasyon
+    currentAnimation = idleAnimation.get();
 }
 
-Enemy::Enemy(int type, int health, Vector3 position, const char* texturePath)
-{
-	this->type = type;
-	this->health = health;
-	this->position = position;
-	this->texture = LoadTexture(texturePath);
+// Destructor
+Enemy::~Enemy() {}
 
-	// Adjust the size of the bounding box 
-	float boundingBoxWidth = 0.3f;  // Adjust width as needed
-	float boundingBoxHeight = 0.7f; // Adjust height as needed
-	float boundingBoxDepth = 0.5f;  // Adjust depth as needed
+// Update
+void Enemy::update(float deltaTime) {
+    if (currentAnimation) {
+        currentAnimation->Update(deltaTime);
+    }
 
-	this->boundingBox = {
-		Vector3Subtract(position, Vector3{boundingBoxWidth, boundingBoxHeight, boundingBoxDepth}),
-		Vector3Add(position, Vector3{boundingBoxWidth, boundingBoxHeight, boundingBoxDepth})
-	};
-
+    // Hareket veya saldýrý durumuna göre animasyon deðiþtir (örnek)
+    if (health <= 0) {
+        currentAnimation = deathAnimation.get();
+    }
 }
 
-Enemy::~Enemy()
-{
-	UnloadTexture(texture);
+// Draw
+void Enemy::draw(Camera3D camera) {
+    if (currentAnimation) {
+        Vector3 screenPos = GetWorldToScreen(position, camera);
+        currentAnimation->Draw({screenPos.x - 16, screenPos.y - 16}); // Ekran koordinatlarýna göre çizim
+    }
 }
 
-void Enemy::update()
-{
-	
+// Hasar alma
+void Enemy::getHit(int damage) {
+    health -= damage;
+
+    if (health > 0) {
+        currentAnimation = hurtAnimation.get();
+    } else {
+        die();
+    }
 }
 
-void Enemy::draw(Camera3D camera)
-{
-	DrawBillboard(camera, texture, position, 1.5f, WHITE);
-	DrawBoundingBox(boundingBox, RED);
+// Ölüm
+void Enemy::die() {
+    currentAnimation = deathAnimation.get();
+    // Diðer ölüm iþlemleri
 }
 
-void Enemy::getHit(int damage)
-{
-	// play enemy hit animation;
-
-	if (health <= 0) {
-		return;
-	}
-
-	health -= damage;
-	std::cout << "enemy health:" << getHealth() << "\n";
-	if (health <= 0) {
-		die();
-	}
+// Saðlýk deðerini döndür
+int Enemy::getHealth() const {
+    return health;
 }
 
-void Enemy::die()
-{
-	// play death animation
-	std::cout << "enemy died" << "\n";
+// Pozisyonu döndür
+Vector3 Enemy::getPosition() const {
+    return position;
 }
 
-int Enemy::getHealth() const
-{
-	return health;
-}
-
-Vector3 Enemy::getPosition() const
-{
-	return position;
-}
-
-BoundingBox Enemy::getBoundingBox() const
-{
-	return boundingBox;
+// BoundingBox döndür
+BoundingBox Enemy::getBoundingBox() const {
+    return boundingBox;
 }

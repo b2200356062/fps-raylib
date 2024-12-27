@@ -28,9 +28,9 @@ void Game::initGameplay()
 	
 	player = new Player({ 100.f, 100.f });
 
-	enemies.push_back(new Enemy(1, 100, { 2.f, 1.f, 2.f }, ASSETS_PATH"textures/characters/SoldierIdle.png"));
-	enemies.push_back(new Enemy(2, 100, { 5.f, 1.f, 5.f }, ASSETS_PATH"textures/characters/ZombieIdle.png"));
-	enemies.push_back(new Enemy(3, 100, { -2.f, 1.f, -2.f }, ASSETS_PATH"textures/characters/CommandoIdle.png"));
+	enemies.push_back(new Enemy(1, 100, { 2.f, 1.f, 2.f }));
+	enemies.push_back(new Enemy(2, 100, { 5.f, 1.f, 5.f }));
+	enemies.push_back(new Enemy(3, 100, { -2.f, 1.f, -2.f }));
 
 	camera.position = Vector3{ 0.0f, 1.0f, 4.0f };   
 	camera.target = Vector3{ 0.0f, 1.0f, 0.0f };     

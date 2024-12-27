@@ -14,6 +14,14 @@ constexpr auto WINDOW_TITLE = "FPS";
 
 class Game
 {
+public:
+
+	Game();
+	~Game();
+
+	void initGameplay();
+	void update();
+
 private:
 	Ui* ui = nullptr;
 	Map* map = nullptr;
@@ -23,12 +31,5 @@ private:
 	Camera3D camera;
 	int frameCounter;
 	
-public:
-
-	Game();
-	~Game();
-
-	void initGameplay();
-	void update();
 
 };
