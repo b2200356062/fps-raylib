@@ -6,6 +6,7 @@
 #include "enemy.h"
 #include "map.h"
 #include "ui.h"
+#include "pickables.h"
 
 constexpr auto SCREEN_WIDTH = 800;
 constexpr auto SCREEN_HEIGHT = 600;

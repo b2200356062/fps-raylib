@@ -22,16 +22,18 @@ Gun::~Gun()
 
 void Gun::update()
 {
-	if (isShooting) {
-		ammoRemaining--;
-		timer += GetFrameTime();
-		if (timer >= frameTime) {
-			timer = 0.0f;
-			currentFrame++;
-			/*if (currentFrame >= frameCount) {
-				currentFrame = 0;
-				isShooting = false;
-			}*/
+	if (!isShooting) return;
+
+	timer += GetFrameTime();
+	if (timer >= frameTime)
+	{
+		timer = 0.0f;
+		currentFrame++;
+
+		if (currentFrame >= frameCount)
+		{
+			currentFrame = 0; // Animasyonu sýfýrla
+			isShooting = false; // Ateþ etmeyi durdur
 		}
 	}
 }

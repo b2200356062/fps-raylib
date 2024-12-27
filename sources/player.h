@@ -22,6 +22,6 @@ private:
     float speed;
     Vector3 position;
     
-    float shootCooldown; // Cooldown period between shots
-    float timeSinceLastShot; // Time since the last shot was fired
+    float shootCooldown;
+    float timeSinceLastShot;
 };

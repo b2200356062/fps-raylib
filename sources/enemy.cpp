@@ -1,10 +1,10 @@
 #include "enemy.h"
+#include <iostream>
 
 Enemy::Enemy()
 {
 
 }
-
 
 Enemy::Enemy(int type, int health, Vector3 position, const char* texturePath)
 {
@@ -43,7 +43,14 @@ void Enemy::draw(Camera3D camera)
 
 void Enemy::getHit(int damage)
 {
+	// play enemy hit animation;
+
+	if (health <= 0) {
+		return;
+	}
+
 	health -= damage;
+	std::cout << "enemy health:" << getHealth() << "\n";
 	if (health <= 0) {
 		die();
 	}
@@ -52,6 +59,7 @@ void Enemy::getHit(int damage)
 void Enemy::die()
 {
 	// play death animation
+	std::cout << "enemy died" << "\n";
 }
 
 int Enemy::getHealth() const

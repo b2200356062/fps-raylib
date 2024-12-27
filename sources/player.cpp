@@ -8,7 +8,7 @@ Player::Player(Vector3 position)
 	health = 100;
 	speed = 25;
 	gun = new Gun();
-	shootCooldown = 1.f; // 0.5 seconds cooldown between shots
+	shootCooldown = 0.2f; 
 	timeSinceLastShot = 0.0f;
 }
 
@@ -28,18 +28,21 @@ void Player::update(std::vector<Enemy*>& enemies, Camera3D& camera)
 	if (IsKeyDown(KEY_A)) position.x -= speed * deltaTime;
 	if (IsKeyDown(KEY_D)) position.x += speed * deltaTime;
 
-	if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) 
+	// Ateþ etme kontrolü
+	if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) && timeSinceLastShot >= shootCooldown)
 	{
-		gun->isShooting = true;
-
-		gun->update();
-
-		shoot(enemies, camera);
-
-		timeSinceLastShot = 0.0f; // Reset the timer after shooting
+		shoot(enemies, camera); // Ateþ et
+		timeSinceLastShot = 0.0f; // Zamanlayýcýyý sýfýrla
 	}
 
-	if (IsKeyDown(KEY_R)) 
+	if (!IsMouseButtonDown(MOUSE_BUTTON_LEFT))
+	{
+		gun->isShooting = false; // Ateþi durdur
+	}
+
+	gun->update(); // Silah animasyonunu güncelle
+
+	if (IsKeyDown(KEY_R))
 	{
 		gun->isShooting = false;
 		gun->currentFrame = 0;
@@ -49,7 +52,7 @@ void Player::update(std::vector<Enemy*>& enemies, Camera3D& camera)
 
 void Player::shoot(std::vector<Enemy*>& enemies, Camera3D& camera)
 {
-	if (gun->isShooting) return; // Prevent shooting if already shooting
+	gun->isShooting = true; // Silahýn ateþ ettiðini iþaretle
 
 	Vector2 screenCenter = { GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f };
 	Ray ray = GetMouseRay(screenCenter, camera);
@@ -59,12 +62,13 @@ void Player::shoot(std::vector<Enemy*>& enemies, Camera3D& camera)
 		if (GetRayCollisionBox(ray, enemy->getBoundingBox()).hit)
 		{
 			std::cout << "enemy hit: " << enemy->getHealth() << "\n";
-			enemy->getHit(10); // Assume each hit does 10 damage
-			break; // Only hit one enemy per shot
+			enemy->getHit(20); 
+			
+			break;
 		}
 	}
-	
 }
+
 
 void Player::draw()
 {

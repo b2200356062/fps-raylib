@@ -51,13 +51,14 @@ void Game::update()
 
 			case Ui::TITLE:
 			{
-
+				
 			}
 			break;
 
 			case Ui::GAMEPLAY:
 			{
 				UpdateCamera(&camera, CAMERA_FIRST_PERSON);
+
 				// UPDATE PLAYER ENEMIES GUN MAP
 				map->update();
 
@@ -116,7 +117,6 @@ void Game::update()
 				ui->drawOptionsScreen();
 			}
 			break;
-
 
 			default: break;
 		}

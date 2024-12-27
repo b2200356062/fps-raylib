@@ -27,18 +27,18 @@ void Ui::drawText(const char* text, Vector2 position, float fontSize, float spac
 
 void Ui::drawTitleScreen()
 {
-    drawText("RETRO FPS", Vector2{ static_cast<float>(GetScreenWidth()) / 2, static_cast<float>(GetScreenHeight()) / 8 }, 2, 1, BLACK);
+    drawText("RETRO FPS", Vector2{ static_cast<float>(GetScreenWidth()) / 2, static_cast<float>(GetScreenHeight()) / 8}, 2, 1, BLACK);
 	// drawText("RETRO FPS", Vector2{ GetScreenWidth() / 2, GetScreenHeight() / 8 }, 2, 1, BLACK);
 
-	if (GuiButton(Rectangle{ 200, 200, 200, 40 }, "START"))
+	if (GuiButton(Rectangle{ static_cast<float>(GetScreenWidth()) / 2 - 100,  static_cast<float>(GetScreenHeight()) / 2, 200, 40 }, "START"))
 	{
 		updateScene(GAMEPLAY);
 	}
-	if (GuiButton(Rectangle{ 200, 260, 200, 40 }, "OPTIONS"))
+	if (GuiButton(Rectangle{ static_cast<float>(GetScreenWidth()) / 2 - 100,  static_cast<float>(GetScreenHeight()) / 2 + 50, 200, 40 }, "OPTIONS"))
 	{
 		updateScene(OPTIONS);
 	}
-	if (GuiButton(Rectangle{ 200, 320, 200, 40 }, "EXIT"))
+	if (GuiButton(Rectangle{ static_cast<float>(GetScreenWidth()) / 2 - 100,  static_cast<float>(GetScreenHeight()) / 2 + 100, 200, 40 }, "EXIT"))
 	{
 		exit(0);
 	}
